@@ -1,0 +1,15 @@
+{
+  "dataSet": [
+    {
+      "titleMahapack": "6506Mahapack36",
+      "titleExam" : "Insurance Exams 2019 Ali 4",
+      "totalChildPackage": "55", 
+      "totalParentPackage": "21",
+      "totalExams": "35",
+      "titleParentPackage" : "6506Parent3",
+      "parentContent" : ["EBooks"],
+      "titleChildPackage" : "6506Child5",
+      "childContent" : "EBooks"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "dataSet" : [{
+    "packageName": "PPC_MCME",
+    "packageType" : "Multiple child multiple exams",
+    "packageContent" : "multiple",
+    "packageExam" : "Railways 2018"
+  },
+  
+  {
+    "packageName": "PPC_MCSE",
+    "packageType" : "Multiple child single exams",
+    "packageContent" : "multiple",
+    "packageExam" : "none"
+  },
+  
+  {
+    "packageName": "PPC_SCME",
+    "packageType" : "Single child multiple exams",
+    "packageContent" : "Test Series" ,
+    "packageExam" : "none"	
+  } ]
+}
