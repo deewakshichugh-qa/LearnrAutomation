@@ -19,7 +19,7 @@ public class SignUpTest extends BaseTest {
 				ConfigFileReader.strEnv.equalsIgnoreCase("production")) {
 			throw new SkipException("Skipping test because this feature can not run on ios or production.");
 		}
-		loginObj = new LoginUtil();
+		loginObj = new LoginUtil(getDriver());
 		result = loginObj.verifySignUp(getDriver());
 		Common_Function.updateStatusOnLambdaTest(getDriver(), result);
 		Assert.assertTrue(result, loginObj.loginMsgList.toString());

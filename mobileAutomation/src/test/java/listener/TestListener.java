@@ -9,8 +9,6 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import test_scripts.BaseTest;
-import test_scripts.BaseTestWithLoginDeeplink;
-import test_scripts.BaseTestWithoutLoginDeeplink;
 import util.ExtentManager;
 
 public class TestListener implements ITestListener {
@@ -54,14 +52,6 @@ public class TestListener implements ITestListener {
 
 			Object instance = result.getInstance();
 			AppiumDriver<MobileElement> driver = null;
-
-			if (instance instanceof BaseTest) {
-				driver = ((BaseTest) instance).getDriver();
-			} else if (instance instanceof BaseTestWithLoginDeeplink) {
-				driver = ((BaseTestWithLoginDeeplink) instance).getDriver();
-			} else if (instance instanceof BaseTestWithoutLoginDeeplink) {
-				driver = ((BaseTestWithoutLoginDeeplink) instance).getDriver();
-			}
 
 			if (driver != null) {
 				try {

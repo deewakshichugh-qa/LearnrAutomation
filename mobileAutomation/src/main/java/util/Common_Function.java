@@ -1201,7 +1201,7 @@ public class Common_Function {
 					|| ConfigFileReader.strRunMode.equalsIgnoreCase("localLab")) {
 				capebilityMap.put("udid", udid);
 //				capebilityMap.put("remoteAddress", "https://617f-14-195-208-46.ngrok-free.app/wd/hub");
-				capebilityMap.put("remoteAddress", "http://127.0.0.1:" + port + "/wd/hub");
+				capebilityMap.put("remoteAddress", "http://127.0.0.1:" + port);
 //				capebilityMap.put("remoteAddress", "http://localhost:" + port + "/wd/hub");
 				capebilityMap.put("automationName", "UiAutomator2");
 

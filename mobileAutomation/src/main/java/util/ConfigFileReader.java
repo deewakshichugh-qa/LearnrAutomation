@@ -39,7 +39,7 @@ public class ConfigFileReader {
 //
 //        retryCount = "0";
 //        strApplicationType = "Android";
-//        strApplication = "Adda";
+//        strApplication = "Learnr";
 //        isTablet = "false";
 //        strEnv = "staging";                                // Configure staging, dev, qa, sigmaqa, production, beta
 //        strRunMode = "local";                                // Configure cloud, local, localLab
@@ -51,7 +51,7 @@ public class ConfigFileReader {
 //        prodStrUserEmailId = "shubham.bansal@adda247.com";    // Configure as per your emailId on prod env
 //
 //        prodEmailMasterPassword = "cYfmhOmZB5qfIH44R1";        // Don't change master email
-//        prodOtpMasterPassword = "839052";                    // Don't change master otp
+//        prodOtpMasterPassword = "719492";                    // Don't change master otp
 //
 //        // Apk link
 //		// strApkLink = "http://teacherapp.adda247.com/temp/Adda247-profile-universal.apk";
@@ -87,7 +87,7 @@ public class ConfigFileReader {
         String strPropertyPath = null;
         try {
 
-            if (strApplication.equalsIgnoreCase("Adda")) {
+            if (strApplication.equalsIgnoreCase("Learnr")) {
                 if (strEnv.equalsIgnoreCase("staging")) {
 
                     strPropertyPath = "src/main/resources/config/staging.properties";
@@ -113,27 +113,6 @@ public class ConfigFileReader {
                     strPropertyPath = "src/main/resources/config/sigmaqa.properties";
                 }
 
-            } else if (strApplication.equalsIgnoreCase("Sankalp")) {
-                if (strEnv.equalsIgnoreCase("staging")) {
-
-                    strPropertyPath = "src/main/resources/configSankalp/staging.properties";
-
-                } else if (strEnv.equalsIgnoreCase("dev")) {
-
-                    strPropertyPath = "src/main/resources/configSankalp/dev.properties";
-
-                } else if (strEnv.equalsIgnoreCase("production")) {
-
-                    strPropertyPath = "src/main/resources/configSankalp/prod.properties";
-
-                } else if (strEnv.equalsIgnoreCase("beta")) {
-
-                    strPropertyPath = "src/main/resources/configSankalp/beta.properties";
-
-                } else if (strEnv.equalsIgnoreCase("qa")) {
-
-                    strPropertyPath = "src/main/resources/configSankalp/qa.properties";
-                }
             }
 
             assert strPropertyPath != null;
@@ -207,30 +186,10 @@ public class ConfigFileReader {
             throw new RuntimeException("admintoken is not defined.");
     }
 
-    public String getSocialBaseUrlPost() {
-        String strSocialBaseUrlPost = properties.getProperty("SocialBaseUrlPost");
-        if (strSocialBaseUrlPost != null)
-            return strSocialBaseUrlPost;
-        else
-            throw new RuntimeException("Social Base url Post is not defined.");
-    }
-
-    public String getCoupon() {
-        String strCoupon = properties.getProperty("Coupon");
-        if (strCoupon != null)
-            return strCoupon;
-        else
-            throw new RuntimeException("Coupon is not defined.");
-    }
-
     public String getAppPackageActivity() {
         String strPackageActivity = null;
-        if (strApplication.equalsIgnoreCase("Adda")) {
-            strPackageActivity = "com.adda247.app/com.adda247.modules.home.adda247default";
-
-        } else if (strApplication.equalsIgnoreCase("Sankalp")) {
-            strPackageActivity = "com.sankalpbharat.app/com.sankalpbharat.modules.home.HomeActivity";
-
+        if (strApplication.equalsIgnoreCase("Learnr")) {
+            strPackageActivity = "com.adda247.gold/com.adda247.gold.MainActivity";
         }
         return strPackageActivity;
     }

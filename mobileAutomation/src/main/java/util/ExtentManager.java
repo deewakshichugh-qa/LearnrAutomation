@@ -17,7 +17,7 @@ public class ExtentManager {
 	private static Platform platform;
 
 	// Set up report paths for Windows and Mac
-	private static final String reportFileName = "AppAutomationReport_" + getTimestamp() + ".html";
+	private static final String reportFileName = "LearnrAutomationReport_" + getTimestamp() + ".html";
 	private static final String macPath = System.getProperty("user.dir") + "/TestReport";
 	private static final String windowsPath = System.getProperty("user.dir") + "\\TestReport";
 

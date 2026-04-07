@@ -136,15 +136,15 @@ public class BaseTest {
                 }
             }
 
-            result = cfObj.commonWaitForElementToBeLocatedAndVisible(getDriver(), "//android.widget.ImageView[@content-desc=\"Cancel\"]", "xpath", 5);
+            result = cfObj.commonWaitForElementToBeLocatedAndVisible(getDriver(), "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_allow_button\"]", "xpath", 10);
             if (result) {
-                cfObj.commonClick(cfObj.commonGetElement(getDriver(), "//android.widget.ImageView[@content-desc=\"Cancel\"]", "xpath"));
+                cfObj.commonClick(cfObj.commonGetElement(getDriver(), "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_allow_button\"]", "xpath"));
             }
 
             try {
                 WebDriverWait wait = new WebDriverWait(getDriver(), 30);
                 String envText = ConfigFileReader.strEnv.toUpperCase();
-                MobileElement envElement = (MobileElement) wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'" + envText + "')]")));
+                MobileElement envElement = (MobileElement) wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@content-desc,'" + envText + "')]")));
                 envElement.click();
 
             } catch (org.openqa.selenium.TimeoutException te) {
@@ -166,12 +166,12 @@ public class BaseTest {
 
             // Reinitialize app
             if (ConfigFileReader.strRunMode.equalsIgnoreCase("cloud")) {
-                getDriver().terminateApp(packageName);
+                try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
                 Thread.sleep(1000);
                 getDriver().activateApp(packageName);
             } else {
                 if (getDriver().isAppInstalled(packageName)) {
-                    getDriver().terminateApp(packageName);
+                    try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
                     Thread.sleep(1000);
                     getDriver().activateApp(packageName);
                 }
