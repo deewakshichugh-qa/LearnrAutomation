@@ -208,13 +208,14 @@ public class APIUtils {
 
 	// Function to hit the Get API
 	public APIResponse getCallwithBasicAuth(String strBaseUrl, String endPoint, String strUserName, String strPassword,
-			String strHeader) {
+			String strHeader, String jwtToken) {
 		try {
 			RestAssured.baseURI = strBaseUrl;
 			System.out.println("base" + strBaseUrl);
 			RequestSpecification request = RestAssured.given();
 			if (strHeader != null) {
 				request.header("Authorization", strHeader);
+				request.header("x-jwt-token", jwtToken);
 			}
 			request.auth().basic(strUserName, strPassword);
 			request.log().all();

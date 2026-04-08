@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import apiUtill.OtpUtil;
 import pageObject.Login_OR;
 import util.Common_Function;
@@ -32,9 +31,9 @@ public class LoginUtil {
                 loginMsgList.add("Unable to signup");
                 return result;
             }
-            result = verifyOnboardingScreen(driver);
+            result = skipOnboardingScreen(driver);
             if(!result){
-                loginMsgList.add("Issue verifying personalisation screen");
+                loginMsgList.add("Issue verifying onboarding screen");
                 return result;
             }
 
@@ -45,7 +44,7 @@ public class LoginUtil {
         return result;
     }
 
-    public boolean verifyOnboardingScreen(AppiumDriver<MobileElement> driver){
+    public boolean skipOnboardingScreen(AppiumDriver<MobileElement> driver){
         boolean result = true;
         try{
             result = cfObj.commonWaitForElementToBeVisible(driver, loginPageObj.getOnboardingCoins(), 30);
@@ -53,6 +52,29 @@ public class LoginUtil {
                 loginMsgList.add("Onboarding screen is not opened after personalisation screen");
                 return result;
             }
+            result = cfObj.commonWaitForElementToBeVisible(driver, loginPageObj.getSkipOnboarding(), 30);
+            if(!result){
+                loginMsgList.add("Skip button is not visible on Onboarding screen");
+                return result;
+            }
+            cfObj.commonClick(loginPageObj.getSkipOnboarding());
+            result = cfObj.commonWaitForElementToBeVisible(driver, loginPageObj.getSkipPaywall(), 30);
+            if(!result){
+                loginMsgList.add("Skip button is not there on paywall");
+                return result;
+            }
+            cfObj.commonClick(loginPageObj.getSkipPaywall());
+            result = cfObj.commonWaitForElementToBeVisible(driver, loginPageObj.getMaybeLaterPaywall(), 30);
+            if(!result){
+                loginMsgList.add("MaybeLater is not visible after clicking on skip from paywall");
+                return result;
+            }
+            cfObj.commonClick(loginPageObj.getMaybeLaterPaywall());
+            result = cfObj.commonWaitForElementToBeVisible(driver,loginPageObj.getFreeTokensCross(),20);
+            if(result) {
+                cfObj.commonClick(loginPageObj.getFreeTokensCross());
+            }
+
         } catch (Exception e) {
             loginMsgList.add("verifyOnboardingScreen_Exception: " + e.getMessage());
             result = false;
@@ -112,7 +134,7 @@ public class LoginUtil {
                 strOtp = ConfigFileReader.prodOtpMasterPassword;
             } else {
                 otpUtilObj = new OtpUtil();
-                strOtp = otpUtilObj.getOtpAdminEmailPhone(mobileNumber, "phone");
+                strOtp = otpUtilObj.getOtp(mobileNumber);
                 if (strOtp == null) {
                     loginMsgList.add("OTP is null");
                     return false;
