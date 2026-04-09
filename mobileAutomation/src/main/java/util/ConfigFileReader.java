@@ -187,11 +187,7 @@ public class ConfigFileReader {
     }
 
     public String getAppPackageActivity() {
-        String strPackageActivity = null;
-        if (strApplication.equalsIgnoreCase("Learnr")) {
-            strPackageActivity = "com.adda247.gold/com.adda247.gold.MainActivity";
-        }
-        return strPackageActivity;
+        return "com.adda247.gold/com.adda247.gold.MainActivity";
     }
 
     public String getCategoryExamLang() {

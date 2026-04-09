@@ -211,7 +211,7 @@ public class BaseTest {
                         ExtentTestManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
                         ExtentTestManager.getTest().fail("Screenshot",
                                 MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
-                        boolean apiFailure = analyzeFlutterApiFailures("com.addaeducation.testprime", result);
+                        boolean apiFailure = analyzeFlutterApiFailures("com.adda247.gold", result);
                         if (apiFailure) {
                             result.setStatus(ITestResult.FAILURE);
                         }
@@ -234,7 +234,7 @@ public class BaseTest {
                     }
                     attachDeviceLogs();
                 }
-                analyzeFullLogsForCrash(result, "com.addaeducation.testprime");
+                analyzeFullLogsForCrash(result, "com.adda247.gold");
                 ExtentTestManager.removeTest();
             }
         } catch (Exception e) {

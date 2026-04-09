@@ -2045,11 +2045,7 @@ public class Common_Function {
 		File dest = null;
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File src = ts.getScreenshotAs(OutputType.FILE);
-		if (ConfigFileReader.strApplication.equalsIgnoreCase("Adda")) {
-			dest = new File("./ExpectedScreenshots/AddaScreenShot/" + screenshotName + ".PNG");
-		} else {
-			dest = new File("./ExpectedScreenshots/SankalpScreenShot/" + screenshotName + ".PNG");
-		}
+		dest = new File("./ExpectedScreenshots/LearnrScreenShot/" + screenshotName + ".PNG");
 		Files.copy(src, dest);
 		return dest;
 	}
@@ -2102,13 +2098,8 @@ public class Common_Function {
 		double compImagePercentage = 0;
 		try {
 			File expectedScreenshot = takeScreenshot(driver, expectedImage);
-			if (ConfigFileReader.strApplication.equalsIgnoreCase("Adda")) {
-				compImagePercentage = compareImage(expectedScreenshot,
-						new File("./ActualScreenshots/AddaScreenShot/" + actualImage + ".png"));
-			} else {
-				compImagePercentage = compareImage(expectedScreenshot,
-						new File("./ActualScreenshots/SankalpScreenShot/" + actualImage + ".png"));
-			}
+			compImagePercentage = compareImage(expectedScreenshot,
+					new File("./ActualScreenshots/LearnrScreenShot/" + actualImage + ".png"));
 			result = compImagePercentage > comparePercentage;
 			if (!result) {
 				System.out.println("Actual Image and Expected image both are different.");

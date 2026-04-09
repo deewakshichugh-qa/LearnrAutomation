@@ -8,6 +8,9 @@ import apiUtill.OtpUtil;
 import pageObject.Login_OR;
 import util.Common_Function;
 import util.ConfigFileReader;
+
+import static util.TestDescriptionConstant.verifySignUp;
+
 public class LoginUtil {
 
     private OtpUtil otpUtilObj;
@@ -166,5 +169,6 @@ public class LoginUtil {
         }
         return result;
     }
+
 
 }
