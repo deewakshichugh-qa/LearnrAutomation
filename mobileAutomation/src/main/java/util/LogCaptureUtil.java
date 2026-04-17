@@ -78,35 +78,12 @@ public class LogCaptureUtil {
                         // Extract from "SendEvent:" onwards, stripping the logcat/flutter prefix
                         String eventData = cleanLine.substring(cleanLine.indexOf("SendEvent:"));
                         eventBuffer = new StringBuilder(eventData);
-                    } else if (eventBuffer != null) {
-                        // Check if this is a continuation (same flutter log, not a decorator line)
-                        if (line.contains("I/flutter") && !cleanLine.contains("┌") && !cleanLine.contains("└")
-                                && !cleanLine.contains("├") && !cleanLine.isEmpty()
-                                && !cleanLine.matches("^\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}.*I/flutter.*#\\d+.*")) {
-                            // Strip the logcat prefix from continuation line too
-                            String cont = cleanLine;
-                            int flutterIdx = cont.indexOf("I/flutter");
-                            if (flutterIdx >= 0) {
-                                int colonIdx = cont.indexOf(":", flutterIdx);
-                                if (colonIdx >= 0) {
-                                    cont = cont.substring(colonIdx + 1).trim();
-                                }
-                            }
-                            eventBuffer.append(cont);
-                        } else {
-                            // New log line — flush the buffered event
-                            eventsWriter.write(eventBuffer.toString());
-                            eventsWriter.newLine();
-                            eventsWriter.flush();
-                            eventBuffer = null;
-                        }
+                        // Immediately write and flush — if continuation comes, we'll append
+                        eventsWriter.write(eventBuffer.toString());
+                        eventsWriter.newLine();
+                        eventsWriter.flush();
+                        eventBuffer = null;
                     }
-                }
-                // Flush any remaining buffered event
-                if (eventBuffer != null) {
-                    eventsWriter.write(eventBuffer.toString());
-                    eventsWriter.newLine();
-                    eventsWriter.flush();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -32,30 +32,30 @@ public class ConfigFileReader {
         prodOtpMasterPassword = System.getProperty("prodOtpMasterPassword");
         strApkLink = System.getProperty("strApkLink");
 
-//        // Cloud Configuration
-//        userName = "abhay.rai";
-//        accessKey = "f562ULSQYygxPzwtlVtAvfsna7mnAoWTlVlS4BIC3FYUs6Tf1W";
-//        strFilePath = "lt://APP1016060381743409083341880"; // Configure Adda/Ios build file path
-//
-//        retryCount = "0";
-//        strApplicationType = "Android";
-//        strApplication = "Learnr";
-//        isTablet = "false";
-//        strEnv = "staging";                                // Configure staging, dev, qa, sigmaqa, production, beta
-//        strRunMode = "local";                                // Configure cloud, local, localLab
-//
-//        strUserEmailId = "hamza.arif@adda247.com";            // Configure as per your emailId on test env
-//        strUserPassword = "123456789";                        // Configure as per your password on test env
-//
-//        strUserMobileNumber = "9878252339";                    // Configure as per your phone number on test & prod env
-//        prodStrUserEmailId = "shubham.bansal@adda247.com";    // Configure as per your emailId on prod env
-//
-//        prodEmailMasterPassword = "cYfmhOmZB5qfIH44R1";        // Don't change master email
-//        prodOtpMasterPassword = "719492";                    // Don't change master otp
-//
-//        // Apk link
-//		// strApkLink = "http://teacherapp.adda247.com/temp/Adda247-profile-universal.apk";
-//        strApkLink = "";
+        // Cloud Configuration
+        userName = "abhay.rai";
+        accessKey = "f562ULSQYygxPzwtlVtAvfsna7mnAoWTlVlS4BIC3FYUs6Tf1W";
+        strFilePath = "lt://APP1016060381743409083341880"; // Configure Adda/Ios build file path
+
+        retryCount = "0";
+        strApplicationType = "Android";
+        strApplication = "Learnr";
+        isTablet = "false";
+        strEnv = "staging";                                // Configure staging, dev, qa, sigmaqa, production, beta
+        strRunMode = "local";                                // Configure cloud, local, localLab
+
+        strUserEmailId = "hamza.arif@adda247.com";            // Configure as per your emailId on test env
+        strUserPassword = "123456789";                        // Configure as per your password on test env
+
+        strUserMobileNumber = "9878252339";                    // Configure as per your phone number on test & prod env
+        prodStrUserEmailId = "shubham.bansal@adda247.com";    // Configure as per your emailId on prod env
+
+        prodEmailMasterPassword = "cYfmhOmZB5qfIH44R1";        // Don't change master email
+        prodOtpMasterPassword = "719492";                    // Don't change master otp
+
+        // Apk link
+		// strApkLink = "http://teacherapp.adda247.com/temp/Adda247-profile-universal.apk";
+        strApkLink = "";
 
         // Check if the above configurations are not commented
         validateConfig();

@@ -27,8 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import util.LogCaptureUtil;
+import util.EventValidationUtil;
 
 public class BaseTest {
 
@@ -44,6 +46,10 @@ public class BaseTest {
     public static String screenshotFolderPath;
     private String relativePath;
     private final LogCaptureUtil logUtil = new LogCaptureUtil();
+
+    public LogCaptureUtil getLogUtil() {
+        return logUtil;
+    }
 
     // Set & Get the driver instance
     public void setDriver(AppiumDriver<MobileElement> driverInstance) {
@@ -133,63 +139,70 @@ public class BaseTest {
                 Thread.sleep(3000);
             }
 
-            // Handle True caller installation
             boolean result = true;
-            boolean isInstalled = getDriver().isAppInstalled("com.truecaller");
-
-            if (isInstalled) {
-                result = cfObj.commonWaitForElementToBeLocatedAndVisible(getDriver(), "//*[contains(@text,'USE ANOTHER MOBILE NUMBER')]", "xpath", 10);
-                if (result) {
-                    cfObj.commonClick(cfObj.commonGetElement(getDriver(), "//*[contains(@text,'USE ANOTHER MOBILE NUMBER')]", "xpath"));
-                } else {
-                    System.out.println("Truecaller installed but not visible");
-                }
-            }
-
             result = cfObj.commonWaitForElementToBeLocatedAndVisible(getDriver(), "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_allow_button\"]", "xpath", 10);
             if (result) {
                 cfObj.commonClick(cfObj.commonGetElement(getDriver(), "//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_allow_button\"]", "xpath"));
             }
 
-            try {
-                WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-                String envText = ConfigFileReader.strEnv.toUpperCase();
-                MobileElement envElement = (MobileElement) wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@content-desc,'" + envText + "')]")));
-                envElement.click();
-
-            } catch (org.openqa.selenium.TimeoutException te) {
-                System.out.println("Timeout: Environment element '" + ConfigFileReader.strEnv.toUpperCase() + "' not found in 60 seconds.");
-
-            } catch (org.openqa.selenium.NoSuchElementException ne) {
-                System.out.println("NoSuchElementException: Couldn't find environment option. Check your UI or locator.");
-
-            } catch (Exception e) {
-                System.out.println("Unexpected error while selecting environment: " + e.getMessage());
-            }
-            System.out.println("--> Switched to " + ConfigFileReader.strEnv);
-            String packageName = null;
-            try {
-                packageName = ((AndroidDriver<MobileElement>) getDriver()).getCurrentPackage();
-            } catch (ClassCastException ce) {
-                System.out.println("Driver is not AndroidDriver. Skipping package handling.");
-            }
-
-            // Reinitialize app
-            if (ConfigFileReader.strRunMode.equalsIgnoreCase("cloud")) {
-                try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
-                Thread.sleep(1000);
-                getDriver().activateApp(packageName);
+            // Validate App_Opened event was fired with adjust_id
+            Thread.sleep(5000); // wait for event to be captured from logcat
+            EventValidationUtil evUtil = new EventValidationUtil(logUtil);
+            if (!evUtil.wasEventFiredAfter("App_Opened", 0)) {
+                System.out.println("WARNING: Event 'App_Opened' was not fired after app launch");
             } else {
-                if (getDriver().isAppInstalled(packageName)) {
-                    try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
-                    Thread.sleep(1000);
-                    getDriver().activateApp(packageName);
+                String error = evUtil.validateAttributesNotNull("App_Opened", 0, Arrays.asList("adjust_id"));
+                if (error != null) {
+                    System.out.println("WARNING: " + error);
+                } else {
+                    System.out.println("App_Opened event verified with adjust_id: " + evUtil.getEventAttribute("App_Opened", 0, "adjust_id"));
                 }
             }
 
-            if (cfObj.commonWaitForElementToBeVisible(getDriver(), cfObj.commonGetElement(getDriver(), "com.android.permissioncontroller:id/permission_allow_button", "id"), 5)) {
-                cfObj.commonClick(cfObj.commonGetElement(getDriver(), "com.android.permissioncontroller:id/permission_allow_button", "id"));
-            }
+//            try {
+//                WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+//                String envText = ConfigFileReader.strEnv.toUpperCase();
+//                MobileElement envElement = (MobileElement) wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@content-desc,'" + envText + "')]")));
+//                envElement.click();
+//
+//            } catch (org.openqa.selenium.TimeoutException te) {
+//                System.out.println("Timeout: Environment element '" + ConfigFileReader.strEnv.toUpperCase() + "' not found in 60 seconds.");
+//
+//            } catch (org.openqa.selenium.NoSuchElementException ne) {
+//                System.out.println("NoSuchElementException: Couldn't find environment option. Check your UI or locator.");
+//
+//            } catch (Exception e) {
+//                System.out.println("Unexpected error while selecting environment: " + e.getMessage());
+//            }
+//            System.out.println("--> Switched to " + ConfigFileReader.strEnv);
+//            String packageName = null;
+//            try {
+//                packageName = ((AndroidDriver<MobileElement>) getDriver()).getCurrentPackage();
+//            } catch (ClassCastException ce) {
+//                System.out.println("Driver is not AndroidDriver. Skipping package handling.");
+//            }
+//
+//            // Reinitialize app
+//            if (ConfigFileReader.strRunMode.equalsIgnoreCase("cloud")) {
+//                try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
+//                Thread.sleep(1000);
+//                getDriver().activateApp(packageName);
+//            } else {
+//                if (getDriver().isAppInstalled(packageName)) {
+//                    try { getDriver().terminateApp(packageName); } catch (Exception ignored) {}
+//                    Thread.sleep(1000);
+//                    getDriver().activateApp(packageName);
+//                }
+//            }
+//
+//            if (cfObj.commonWaitForElementToBeVisible(getDriver(), cfObj.commonGetElement(getDriver(), "com.android.permissioncontroller:id/permission_allow_button", "id"), 5)) {
+//                cfObj.commonClick(cfObj.commonGetElement(getDriver(), "com.android.permissioncontroller:id/permission_allow_button", "id"));
+//            }
+
+             /*
+               To check events take a debug production build
+                For normal test execution uncomment the above code where env is to be chosen
+             */
         } catch (Exception e) {
             throw new RuntimeException("Failed in setUp", e);
         } finally {
